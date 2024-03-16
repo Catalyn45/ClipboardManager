@@ -1,0 +1,10 @@
+*.com
+*.class
+*.dll
+*.exe
+*.pdb
+*.dll.config
+*.cache
+bin/
+obj/
+.vs/
