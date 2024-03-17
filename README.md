@@ -9,16 +9,17 @@ This is integrated with windows ctrl+c ctrl+v, meaning that you can copy/cut a f
 - Copy files
 - Cut files
 - Paste files
+- Clear clipboard
 - Show clipboard content
 - Integrated with windows ctrl+c ctrl+v
 
 ## Installation
-Just build the project with dotnet
+Download the binary from releases or just build the project with dotnet
 ```pwsh
 dotnet build --configuration Release
 ```
 
-Then but the binary some directory that you have in `PATH`.
+Then put the binary in some directory that you have in `PATH`.
 
 ## Examples
 
@@ -55,4 +56,10 @@ ClipboardManager --paste ./some_dir
 Show copied files from clipboard
 ```pwsh
 ClipboardManager --show
+```
+<br>
+
+Clear clipboard
+```pwsh
+ClipboardManager --clear
 ```

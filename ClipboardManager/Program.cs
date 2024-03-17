@@ -11,7 +11,7 @@ namespace ClipboardManager
         static string helpText = "Clipboard Manager for windows files\r\n" +
                                  "\r\n" +
                                  "Usage\r\n" +
-                                 $"\t$ {AppDomain.CurrentDomain.FriendlyName} [--copy | --cut | --paste | --show] [-f] [<files>]\r\n" +
+                                 $"\t$ {AppDomain.CurrentDomain.FriendlyName} [--copy | --cut | --paste | --show | --clear] [-f] [<files>]\r\n" +
                                  "\r\n" +
                                  "Examples\r\n" +
                                  $"\t$ {AppDomain.CurrentDomain.FriendlyName} --copy test1.txt test2.txt\r\n" +
@@ -34,7 +34,11 @@ namespace ClipboardManager
                 dropEffect.Write(moveEffect, 0, moveEffect.Length);
 
                 string command = args[0];
-                if (command == "--show")
+                if (command == "--clear")
+                {
+                    Clipboard.Clear();
+                }
+                else if (command == "--show")
                 {
                     var paths = Clipboard.GetFileDropList();
                     foreach (var path in paths)
