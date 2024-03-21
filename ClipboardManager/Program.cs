@@ -73,19 +73,24 @@ namespace ClipboardManager
                     }
 
                     StringCollection items = new StringCollection();
-                    for (int i = 1 + (copyString ? 1 : 0); i < args.Length; i++)
-                    {
-                        items.Add(Path.GetFullPath(args[i]));
-                    }
 
                     Clipboard.Clear();
-
                     if (copyString)
                     {
+                        for (int i = 2; i < args.Length; i++)
+                        {
+                            items.Add(args[i]);
+                        }
+
                         Clipboard.SetText(string.Join("\r\n", items.Cast<string>()));
                     }
                     else
                     {
+                        for (int i = 1; i < args.Length; i++)
+                        {
+                            items.Add(Path.GetFullPath(args[i]));
+                        }
+
                         Clipboard.SetFileDropList(items);
                     }
                 }
