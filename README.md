@@ -1,12 +1,13 @@
 # ClipboardManager
 
-Very simple clipboard manager for copying/cutting and pasting files on windows from the commandline.
+Very simple clipboard manager for copying/cutting and pasting files and strings on windows from the commandline.
 The code is very simple, only 150 lines long.
 
 This is integrated with windows ctrl+c ctrl+v, meaning that you can copy/cut a file with ctrl+c/ctrl+x and then paste/move it from the commandline. You can also copy/cut it from the commandline and paste/move it with ctrl+v.
 
 ## Features
 - Copy files
+- Copy strings
 - Cut files
 - Paste files
 - Clear clipboard
@@ -26,6 +27,12 @@ Then put the binary in some directory that you have in `PATH`.
 Copy multiple files
 ```pwsh
 ClipboardManager --copy ./test1.txt ../test/test2.txt
+```
+<br>
+
+Copy multiple strings (they will be copied as multiple lines)
+```pwsh
+ClipboardManager --copy -s "Hello" "World"
 ```
 <br>
 
@@ -53,7 +60,7 @@ ClipboardManager --paste ./some_dir
 ```
 <br>
 
-Show copied files from clipboard
+Show copied files or strings from clipboard
 ```pwsh
 ClipboardManager --show
 ```

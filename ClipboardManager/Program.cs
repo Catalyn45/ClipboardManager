@@ -11,10 +11,11 @@ namespace ClipboardManager
         static string helpText = "Clipboard Manager for windows files\r\n" +
                                  "\r\n" +
                                  "Usage\r\n" +
-                                 $"\t$ {AppDomain.CurrentDomain.FriendlyName} [--copy | --cut | --paste | --show | --clear] [-f] [<files>]\r\n" +
+                                 $"\t$ {AppDomain.CurrentDomain.FriendlyName} [--copy [-s]] [--cut] [--paste [-f]] [--show] [--clear] <files>\r\n" +
                                  "\r\n" +
                                  "Examples\r\n" +
                                  $"\t$ {AppDomain.CurrentDomain.FriendlyName} --copy test1.txt test2.txt\r\n" +
+                                 $"\t$ {AppDomain.CurrentDomain.FriendlyName} --copy -s \"hello\"\r\n" +
                                  $"\t$ {AppDomain.CurrentDomain.FriendlyName} --paste\r\n";
 
         [STAThread]
@@ -41,27 +42,52 @@ namespace ClipboardManager
                 else if (command == "--show")
                 {
                     var paths = Clipboard.GetFileDropList();
-                    foreach (var path in paths)
+                    if (paths.Count == 0)
                     {
-                        Console.WriteLine(path);
+                        var text = Clipboard.GetText();
+                        if (!string.IsNullOrEmpty(text))
+                        {
+                            Console.WriteLine(text);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var path in paths)
+                        {
+                            Console.WriteLine(path);
+                        }
                     }
                 }
                 else if (command == "--copy")
                 {
-                    if (args.Length < 2)
+                    bool copyString = false;
+                    if (args.Length > 1 && args[1] == "-s")
                     {
-                        Console.WriteLine("At least one path needs to be specified");
+                        copyString = true;
+                    }
+
+                    if (args.Length < 2 + (copyString ? 1 : 0))
+                    {
+                        Console.WriteLine("At least one item needs to be specified");
                         return -1;
                     }
 
-                    StringCollection paths = new StringCollection();
-                    for (int i = 1; i < args.Length; i++)
+                    StringCollection items = new StringCollection();
+                    for (int i = 1 + (copyString ? 1 : 0); i < args.Length; i++)
                     {
-                        paths.Add(Path.GetFullPath(args[i]));
+                        items.Add(Path.GetFullPath(args[i]));
                     }
 
                     Clipboard.Clear();
-                    Clipboard.SetFileDropList(paths);
+
+                    if (copyString)
+                    {
+                        Clipboard.SetText(string.Join("\r\n", items.Cast<string>()));
+                    }
+                    else
+                    {
+                        Clipboard.SetFileDropList(items);
+                    }
                 }
                 else if (command == "--cut")
                 {
